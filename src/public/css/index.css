@@ -1,0 +1,68 @@
+.header__inner {
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.header__logo {
+    font-size: 28px;
+    margin-left: 50px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.header__nav {
+    margin-left: auto;
+}
+
+.header__ul,
+.header__li {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.clockin {
+    margin: 0 auto;
+    padding: 30px 0 100px 0;
+    text-align: center;
+    background-color: rgb(233, 232, 232);
+}
+
+.clockin__title {
+    margin-bottom: 40px;
+}
+
+.clockin__items {
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.clockin-workhours,
+.clockin-breaktimes {
+    margin: 30px 30px;
+    width: 500px;
+    height: 180px;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.footer__inner {
+    margin: 0 auto;
+    padding: 30px 15px;
+    max-width: 1230px;
+    text-align: center;
+}
+
+.footer__small {
+    display: block;
+}
