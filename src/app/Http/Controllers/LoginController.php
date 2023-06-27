@@ -20,7 +20,7 @@ class LoginController extends Controller
         $user_info = $request->only(['email', 'password']);
 
         if (Auth::attempt($user_info)) {
-            return view('index');
+            return redirect('/');
         } else {
             return back();
         }
