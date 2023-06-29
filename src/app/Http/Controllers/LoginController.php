@@ -13,16 +13,4 @@ class LoginController extends Controller
     {
         return view('login');
     }
-
-
-    public function login(LoginRequest $request)
-    {
-        $user_info = $request->only(['email', 'password']);
-
-        if (Auth::attempt($user_info)) {
-            return redirect('/');
-        } else {
-            return back();
-        }
-    }
 }
