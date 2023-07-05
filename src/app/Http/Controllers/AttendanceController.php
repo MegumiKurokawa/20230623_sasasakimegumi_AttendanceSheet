@@ -26,8 +26,11 @@ class AttendanceController extends Controller
     public function endWork()
     {
         $workHour = WorkHour::latest()->first();
-        $workHour->start_time = Carbon::now();
-        $workHour->save();
+
+        if ($workHour) {
+            $workHour->start_time = Carbon::now();
+            $workHour->save();
+        }
 
         return redirect('/');
     }
@@ -44,8 +47,11 @@ class AttendanceController extends Controller
     public function endBreak()
     {
         $breaktime = Breaktime::latest()->first();
-        $breaktime->end_time = Carbon::now();
-        $breaktime->save();
+
+        if ($breaktime) {
+            $breaktime->end_time = Carbon::now();
+            $breaktime->save();
+        }
 
         return redirect('/');
     }

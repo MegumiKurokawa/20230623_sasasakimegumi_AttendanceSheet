@@ -18,10 +18,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/register', [RegisterController::class, 'show']);
 Route::post('/register', [RegisterController::class, 'store']);
-Route::post('/', [AttendanceController::class, 'startWork']);
-Route::post('/', [AttendanceController::class, 'endWork']);
-Route::post('/', [AttendanceController::class, 'startBreak']);
-Route::post('/', [AttendanceController::class, 'endBreak']);
+Route::post('/work/start', [AttendanceController::class, 'startWork']);
+Route::post('/work/end', [AttendanceController::class, 'endWork']);
+Route::post('/break/start', [AttendanceController::class, 'startBreak']);
+Route::post('/break/end', [AttendanceController::class, 'endBreak']);
 Route::middleware('auth')->group(function () {
     Route::get('/', [AttendanceController::class, 'index']);
 });
+Route::get('/login', [LoginController::class, 'index']);
+Route::post('/login', [LoginController::class, 'login']);

@@ -19,7 +19,7 @@
                     <li class="header__li"><a href="/attendance">日付一覧</a></li>
                     <form action="/logout" class="form" method="post">
                         @csrf
-                        <button class="header-nav__button">ログアウト</button>
+                        <li class="header-nav__button"><a href="/login">ログアウト</li>
                     </form>
                 </ul>
             </nav>
