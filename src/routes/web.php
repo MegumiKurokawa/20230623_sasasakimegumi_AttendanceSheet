@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/', [AttendanceController::class, 'store']);
 Route::get('/register', [RegisterController::class, 'show']);
-Route::post('/register', [RegisterController::class, 'store'])->name('register');
+Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/', [AttendanceController::class, 'startWork']);
+Route::post('/', [AttendanceController::class, 'endWork']);
+Route::post('/', [AttendanceController::class, 'startBreak']);
+Route::post('/', [AttendanceController::class, 'endBreak']);
 Route::middleware('auth')->group(function () {
     Route::get('/', [AttendanceController::class, 'index']);
 });
-Route::get('/login', [LoginController::class, 'index']);
