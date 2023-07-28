@@ -25,7 +25,7 @@ class DateController extends Controller
 
         $users = User::all();
         $totalBreaks = [];
-
+        
         foreach ($users as $user) {
             $totalBreakSeconds = 0;
             foreach ($workhours as $workhour) {
@@ -44,8 +44,9 @@ class DateController extends Controller
             $minutes = floor(($totalBreakSeconds % 3600) / 60);
             $seconds = $totalBreakSeconds % 60;
             $totalBreaks = "$hours:$minutes:$seconds";
-            $user->breaktime = $totalBreaks;
+            $workhours->breaktime = $totalBreaks;
         }
+
         $totalWorks = [];
         foreach ($users as $user) {
             $totalWorkSeconds = 0;
@@ -58,12 +59,12 @@ class DateController extends Controller
                 }
             }
 
-            $totalWorkSeconds -= $totalBreakSeconds;
-            $totalHours = floor($totalWorkSeconds / 3600);
-            $totalMinutes = floor(($totalWorkSeconds % 3600) / 60);
-            $totalSeconds = $totalWorkSeconds % 60;
-            $totalWorks = "$totalHours:$totalMinutes:$totalSeconds";
-            $user->worktime = $totalWorks;
+        $totalWorkSeconds -= $totalBreakSeconds;
+        $totalHours = floor($totalWorkSeconds / 3600);
+        $totalMinutes = floor(($totalWorkSeconds % 3600) / 60);
+        $totalSeconds = $totalWorkSeconds % 60;
+        $totalWorks = "$totalHours:$totalMinutes:$totalSeconds";
+        $workhours->worktime = $totalWorks;
         }
 
         return view('date', compact('workhours', 'carbonDate', 'users'));

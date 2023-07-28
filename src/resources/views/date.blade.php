@@ -51,9 +51,9 @@
                     <td>{{ $workhour->start_time }}</td>
                     <td>{{ $workhour->end_time }}</td>
                     <td>
-                        {{ $user->breaktime }}
+                        {{ $workhours->breaktime }}
                     </td>
-                    <td>{{ $user->worktime }}</td>
+                    <td>{{ $workhours->worktime }}</td>
                 </tr>
                 @endforeach
             </table>
