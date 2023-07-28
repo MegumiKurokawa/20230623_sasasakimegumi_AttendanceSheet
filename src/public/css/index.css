@@ -16,7 +16,8 @@
 }
 
 .header__ul,
-.header__li {
+.header__li,
+.header-nav__button {
     display: inline-block;
     margin-right: 30px;
 }
@@ -24,6 +25,7 @@
 a {
     text-decoration: none;
     color: black;
+    font-weight: bold;
 }
 
 .clockin {

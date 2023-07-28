@@ -1,0 +1,62 @@
+.header__inner {
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.header__logo {
+    font-size: 28px;
+    margin-left: 50px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.header__nav {
+    margin-left: auto;
+}
+
+.header__ul,
+.header__li,
+.header-nav__button {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.datelist {
+    margin: 0 auto;
+    padding: 30px 0 100px 0;
+    text-align: center;
+    background-color: rgb(233, 232, 232);
+}
+
+.date {
+    display: inline-block;
+    margin: 0 25px;
+}
+
+.datelist__table {
+    width: 90%;
+    margin: 30px auto;
+}
+
+.datelist__row {
+    border-top: solid 1px darkgray;
+    height: 70px;
+}
+
+.footer__inner {
+    margin: 0 auto;
+    padding: 30px 15px;
+    max-width: 1230px;
+    text-align: center;
+}
+
+.footer__small {
+    display: block;
+}

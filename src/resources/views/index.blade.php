@@ -16,10 +16,8 @@
             <nav class="header__nav">
                 <ul class="header__ul">
                     <li class="header__li"><a href="/">ホーム</a></li>
-                    <li class="header__li"><a href="/attendance">日付一覧</a></li>
-                    <form action="/logout" class="form" method="post">
-                        @csrf
-                        <li class="header-nav__button"><a href="/login">ログアウト</li>
+                    <li class="header__li"><a href="/date">日付一覧</a></li>
+                    <li class="header-nav__button"><a href="/login">ログアウト</a></li>
                     </form>
                 </ul>
             </nav>
@@ -30,19 +28,19 @@
         <div class="clockin">
             <div class="clockin__inner">
                 <div class="clockin__header"></div>
-                @if ($user)
+                @if (Auth::check())
                 <h2 class="clockin__title">
-                    {{ $user['name'] }}さんお疲れ様です！
+                    {{ Auth::user()->name }}さんお疲れ様です！
                 </h2>
                 @endif
             </div>
             <div class="clockin__items">
-                <form class="form" action="/" method="post">
+                <form class="form" method="post">
                     @csrf
-                    <button class="clockin-workhours" type="submit" value="startWork">勤務開始</button>
-                    <button class="clockin-workhours" type="submit" value="endWork">勤務終了</button>
-                    <button class="clockin-breaktimes" type="submit" value="startBreak">休憩開始</button>
-                    <button class="clockin-breaktimes" type="submit" value="endBreak">休憩終了</button>
+                    <button class="clockin-workhours" type="submit" value="startWork" formaction="{{ route('work.start') }}">勤務開始</button>
+                    <button class="clockin-workhours" type="submit" value="endWork" formaction="{{ route('work.end') }}">勤務終了</button>
+                    <button class="clockin-breaktimes" type="submit" value="startBreak" formaction="{{ route('break.start') }}">休憩開始</button>
+                    <button class="clockin-breaktimes" type="submit" value="endBreak" formaction="{{ route('break.end')}}">休憩終了</button>
                 </form>
             </div>
         </div>

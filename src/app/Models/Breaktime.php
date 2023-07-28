@@ -10,7 +10,7 @@ class Breaktime extends Model
     use HasFactory;
 
     protected $fillable = [
-        'workhours_id',
+        'workhour_id',
         'start_time',
         'end_time',
     ];

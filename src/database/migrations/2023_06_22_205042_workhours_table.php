@@ -16,9 +16,9 @@ class WorkhoursTable extends Migration
         Schema::create('workhours', function (Blueprint $table) {
         $table->id();
         $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-        $table->date('date');
+        $table->date('date')->default(now()->format('Y-m-d'));
         $table->time('start_time');
-        $table->time('end_tiem');
+        $table->time('end_time')->nullable();
         $table->timestamps();
         });
     }

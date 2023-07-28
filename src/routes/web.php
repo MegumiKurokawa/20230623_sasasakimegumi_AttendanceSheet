@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DateController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
@@ -16,14 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/register', [RegisterController::class, 'show']);
+Route::get('/register', [RegisterController::class, 'index']);
 Route::post('/register', [RegisterController::class, 'store']);
-Route::post('/work/start', [AttendanceController::class, 'startWork']);
-Route::post('/work/end', [AttendanceController::class, 'endWork']);
-Route::post('/break/start', [AttendanceController::class, 'startBreak']);
-Route::post('/break/end', [AttendanceController::class, 'endBreak']);
+Route::post('/work/start', [AttendanceController::class, 'startWork'])->name('work.start');
+Route::post('/work/end', [AttendanceController::class, 'endWork'])->name('work.end');
+Route::post('/break/start', [AttendanceController::class, 'startBreak'])->name('break.start');
+Route::post('/break/end', [AttendanceController::class, 'endBreak'])->name('break.end');
 Route::middleware('auth')->group(function () {
     Route::get('/', [AttendanceController::class, 'index']);
 });
-Route::get('/login', [LoginController::class, 'index']);
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('/date', [DateController::class, 'index'])->name('date.index');

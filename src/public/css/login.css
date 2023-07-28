@@ -65,6 +65,7 @@
 
 .login__register-button {
     text-decoration: none;
+    font-weight: bold;
 }
 
 .footer__inner {
