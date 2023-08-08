@@ -7,7 +7,6 @@ use App\Models\Workhour;
 use App\Models\Breaktime;
 use Carbon\Carbon;
 use illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 
 class AttendanceController extends Controller
@@ -15,21 +14,31 @@ class AttendanceController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $latestWorkHour = Workhour::where('user_id', $user->id)->whereDate('date', Carbon::today())->latest()->first();
 
-        return view('index', compact('user'));
+        if ($latestWorkHour) {
+            $latestBreakTime = Breaktime::where('workhour_id', $latestWorkHour->id)->latest()->first();
+        }
+
+        return view('index', compact('user', 'latestWorkHour', 'latestBreakTime'));
     }
 
     public function startWork()
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $user = Auth::user();
 
-        $workHour = new WorkHour();
-        $workHour->start_time = Carbon::now();
-        $workHour->user_id = $user->id;
-        $workHour->save();
+            $latestWorkHour = Workhour::where('user_id', $user->id)->whereDate('date', Carbon::today())->latest()->first();
 
-        return redirect('/');
+            if (!$latestWorkHour) {
+                $workHour = new Workhour();
+                $workHour->start_time = Carbon::now();
+                $workHour->date = Carbon::today()->format('Y-m-d');
+                $workHour->user_id = $user->id;
+                $workHour->save();
+            }
+
+            return redirect('/');
         } else {
             return redirect('/login');
         }
@@ -37,11 +46,13 @@ class AttendanceController extends Controller
 
     public function endWork()
     {
-        $workHour = WorkHour::latest()->first();
+        $user = Auth::user();
+        $latestWorkHour = Workhour::where('user_id', $user->id)->whereDate('date', Carbon::today())->latest()->first();
 
-        if ($workHour) {
-            $workHour->end_time = Carbon::now();
-            $workHour->save();
+        if ($latestWorkHour) {
+            $latestWorkHour->end_time = Carbon::now();
+            $latestWorkHour->date = Carbon::today()->format('Y-m-d');
+            $latestWorkHour->save();
         }
 
         return redirect('/');
@@ -50,12 +61,21 @@ class AttendanceController extends Controller
     public function startBreak()
     {
         $user = Auth::user();
-        $workHour = Workhour::where('user_id', $user->id)->latest()->first();
+        $latestWorkHour = Workhour::where('user_id', $user->id)->whereDate('date', Carbon::today())->latest()->first();
 
-        $breaktime = new Breaktime();
-        $breaktime->start_time = Carbon::now();
-        $breaktime->workhour_id = $workHour->id;
-        $breaktime->save();
+        $latestBreakTime = null;
+
+        if ($latestWorkHour) {
+            $latestBreakTime = Breaktime::where('workhour_id', $latestWorkHour->id)->latest()->first();
+        }
+
+        if ($latestWorkHour && !$latestWorkHour->end_time) {
+            $breaktime = new Breaktime();
+            $breaktime->start_time = Carbon::now();
+            $breaktime->end_time = Carbon::now();
+            $breaktime->workhour_id = $latestWorkHour->id;
+            $breaktime->save();
+        }
 
         return redirect('/');
     }
@@ -63,14 +83,18 @@ class AttendanceController extends Controller
     public function endBreak()
     {
         $user = Auth::user();
-        $workHour = Workhour::where('user_id', $user->id)->latest()->first();
-        
-        $breaktime = Breaktime::latest()->first();
+        $latestWorkHour = Workhour::where('user_id', $user->id)->whereDate('date', Carbon::today())->latest()->first();
 
-        if ($breaktime) {
-            $breaktime->end_time = Carbon::now();
-            $breaktime->workhour_id = $workHour->id;
-            $breaktime->save();
+        $latestBreakTime = null;
+
+        if ($latestWorkHour) {
+            $latestBreakTime = Breaktime::where('workhour_id', $latestWorkHour->id)->latest()->first();
+        }
+
+        if ($latestWorkHour && !$latestWorkHour->end_time && $latestBreakTime && $latestBreakTime->start_time) {
+            $latestBreakTime->end_time = Carbon::now();
+            $latestBreakTime->workhour_id = $latestWorkHour->id;
+            $latestBreakTime->save();
         }
 
         return redirect('/');

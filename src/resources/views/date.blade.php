@@ -17,7 +17,12 @@
                 <ul class="header__ul">
                     <li class="header__li"><a href="/">ホーム</a></li>
                     <li class="header__li"><a href="/date">日付一覧</a></li>
-                    <li class="header-nav__button"><a href="/logout">ログアウト</a></li>
+                    <li class="header-nav__button">
+                        <form action="/logout" method="post">
+                            @csrf
+                            <button class="logout-button" type="submit">ログアウト</button>
+                        </form>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -43,22 +48,22 @@
                 <tr class="datelist__row">
                     <td>
                         @foreach ($users as $user)
-                            @if ($user->id === $workhour->user_id)
-                                {{ $user->name }}
-                            @endif
-                        @endforeach                    
+                        @if ($user->id === $workhour->user_id)
+                        {{ $user->name }}
+                        @endif
+                        @endforeach
                     </td>
                     <td>{{ $workhour->start_time }}</td>
                     <td>{{ $workhour->end_time }}</td>
                     <td>
-                        {{ $workhours->breaktime }}
+                        {{ $workhour->breaktime }}
                     </td>
-                    <td>{{ $workhours->worktime }}</td>
+                    <td>{{ $workhour->worktime }}</td>
                 </tr>
                 @endforeach
             </table>
             <div class="datelist__paginate">
-                {{ $workhours->links() }}
+                {{ $workhours->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </main>

@@ -22,6 +22,17 @@
     margin-right: 30px;
 }
 
+.logout-button {
+    display: inline-block;
+    margin-right: 30px;
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
+    background-color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -48,6 +59,12 @@ a {
 .datelist__row {
     border-top: solid 1px darkgray;
     height: 70px;
+}
+
+.pagination,
+.page-item {
+    display: inline-block;
+    justify-content: center;
 }
 
 .footer__inner {

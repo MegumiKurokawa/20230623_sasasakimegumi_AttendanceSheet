@@ -21,52 +21,43 @@ class DateController extends Controller
             $carbonDate->subDay();
         }
 
-        $workhours = Workhour::with('user')->where('date', $carbonDate->format('Y-m-d'))->simplePaginate(5);
+        $workhours = Workhour::with('user')->where('date', $carbonDate->format('Y-m-d'))->paginate(5);
+
 
         $users = User::all();
         $totalBreaks = [];
-        
-        foreach ($users as $user) {
+        foreach ($workhours as $workhour) {
+            $breaktimes = Breaktime::where('workhour_id', $workhour->id)->get();
             $totalBreakSeconds = 0;
-            foreach ($workhours as $workhour) {
-                if ($workhour->user_id === $user->id) {
-                    $breaktimes = Breaktime::where('workhour_id', $workhour->id)->get();
-                    foreach ($breaktimes as $breaktime) {
-                        $endTime = new Carbon($breaktime->end_time);
-                        $startTime = new Carbon($breaktime->start_time);
-                        $diffInSeconds = $endTime->diffInSeconds($startTime);
-                        $totalBreakSeconds += $diffInSeconds;
-                    }
-                }
+            foreach ($breaktimes as $breaktime) {
+                $endTime = new Carbon($breaktime->end_time);
+                $startTime = new Carbon($breaktime->start_time);
+                $diffInSeconds = $endTime->diffInSeconds($startTime);
+                $totalBreakSeconds += $diffInSeconds;
             }
 
             $hours = floor($totalBreakSeconds / 3600);
             $minutes = floor(($totalBreakSeconds % 3600) / 60);
             $seconds = $totalBreakSeconds % 60;
             $totalBreaks = "$hours:$minutes:$seconds";
-            $workhours->breaktime = $totalBreaks;
-        }
+            $workhour->breaktime = $totalBreaks;
+       
 
         $totalWorks = [];
-        foreach ($users as $user) {
             $totalWorkSeconds = 0;
-            foreach ($workhours as $workhour) {
-                if ($workhour->user_id === $user->id) {
-                    $endWork = new Carbon($workhour->end_time);
-                    $startWork = new Carbon($workhour->start_time);
-                    $diffWorkSeconds = $endWork->diffInSeconds($startWork);
-                    $totalWorkSeconds += $diffWorkSeconds;
-                }
-            }
+                $endWork = new Carbon($workhour->end_time);
+                $startWork = new Carbon($workhour->start_time);
+                $diffWorkSeconds = $endWork->diffInSeconds($startWork);
+                $totalWorkSeconds = $diffWorkSeconds - $totalBreakSeconds;
 
-        $totalWorkSeconds -= $totalBreakSeconds;
+
         $totalHours = floor($totalWorkSeconds / 3600);
         $totalMinutes = floor(($totalWorkSeconds % 3600) / 60);
         $totalSeconds = $totalWorkSeconds % 60;
         $totalWorks = "$totalHours:$totalMinutes:$totalSeconds";
-        $workhours->worktime = $totalWorks;
+        $workhour->worktime = $totalWorks;
         }
 
-        return view('date', compact('workhours', 'carbonDate', 'users'));
+        return view('date', compact('workhours', 'carbonDate', 'users', 'totalBreaks'));
     }
 }

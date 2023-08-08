@@ -17,8 +17,13 @@
                 <ul class="header__ul">
                     <li class="header__li"><a href="/">ホーム</a></li>
                     <li class="header__li"><a href="/date">日付一覧</a></li>
-                    <li class="header-nav__button"><a href="/login">ログアウト</a></li>
-                    </form>
+                    <li class="header-nav__button">
+                        <form action="/logout" method="post">
+                            @csrf
+                            <button class="logout-button" type="submit">ログアウト</button>
+                        </form>
+                    </li>
+
                 </ul>
             </nav>
         </div>
@@ -37,10 +42,26 @@
             <div class="clockin__items">
                 <form class="form" method="post">
                     @csrf
+                    @if(!$latestWorkHour)
                     <button class="clockin-workhours" type="submit" value="startWork" formaction="{{ route('work.start') }}">勤務開始</button>
+                    @else
+                    <button class="clockin-workhours" type="submit" value="startWork" formaction="{{ route('work.start') }}" disabled>勤務開始</button>
+                    @endif
+                    @if($latestWorkHour)
                     <button class="clockin-workhours" type="submit" value="endWork" formaction="{{ route('work.end') }}">勤務終了</button>
+                    @else
+                    <button class="clockin-workhours" type="submit" value="endWork" formaction="{{ route('work.end') }}" disabled>勤務終了</button>
+                    @endif
+                    @if($latestWorkHour && !$latestWorkHour->end_time)
                     <button class="clockin-breaktimes" type="submit" value="startBreak" formaction="{{ route('break.start') }}">休憩開始</button>
+                    @else
+                    <button class="clockin-breaktimes" type="submit" value="startBreak" formaction="{{ route('break.start') }}" disabled>休憩開始</button>
+                    @endif
+                    @if($latestWorkHour && !$latestWorkHour->end_time && $latestBreakTime && $latestBreakTime->start_time)
                     <button class="clockin-breaktimes" type="submit" value="endBreak" formaction="{{ route('break.end')}}">休憩終了</button>
+                    @else
+                    <button class="clockin-breaktimes" type="submit" value="endBreak" formaction="{{ route('break.end')}}" disabled>休憩終了</button>
+                    @endif
                 </form>
             </div>
         </div>

@@ -15,11 +15,20 @@
     margin-left: auto;
 }
 
-.header__ul,
-.header__li,
-.header-nav__button {
+.header__ul li {
     display: inline-block;
     margin-right: 30px;
+}
+
+.logout-button {
+    display: inline-block;
+    margin-right: 30px;
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
+    background-color: white;
+    cursor: pointer;
+    font-size: 15px;
 }
 
 a {
