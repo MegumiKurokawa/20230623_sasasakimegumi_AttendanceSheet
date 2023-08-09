@@ -16,11 +16,13 @@ class AttendanceController extends Controller
         $user = Auth::user();
         $latestWorkHour = Workhour::where('user_id', $user->id)->whereDate('date', Carbon::today())->latest()->first();
 
+        $latestBreakTime = ['start_time' => false];
+
         if ($latestWorkHour) {
             $latestBreakTime = Breaktime::where('workhour_id', $latestWorkHour->id)->latest()->first();
         }
 
-        return view('index', compact('user', 'latestWorkHour', 'latestBreakTime'));
+        return view('index', ['user' => $user, 'latestWorkHour' => $latestWorkHour, 'latestBreakTime' => $latestBreakTime]);
     }
 
     public function startWork()
